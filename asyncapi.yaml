@@ -1,0 +1,54 @@
+asyncapi: '2.6.0'
+info:
+  title: Premium Contract Event API
+  version: '1.0.0'
+  description: |
+    Diese API beschreibt das Kafka-Event PREMIUM_CONTRACT_CREATED, 
+    das iCON digital sendet, um Infohub über die Erstellung eines Premium-Vertrags zu informieren.
+servers:
+  production:
+    url: kafka-broker:9092
+    protocol: kafka
+channels:
+  premium.contract.created:
+    description: Kafka-Topic für Premium Contract Creation Events
+    subscribe:
+      summary: Infohub empfängt Benachrichtigungen über erstellte Premium-Verträge.
+      message:
+        $ref: '#/components/messages/PremiumContractCreatedEvent'
+components:
+  messages:
+    PremiumContractCreatedEvent:
+      payload:
+        type: object
+        properties:
+          contractStatus:
+            type: string
+            example: "active"
+            description: Status des Vertrags
+          contractStartDate:
+            type: string
+            format: date
+            description: Startdatum des Vertrags
+          contractId:
+            type: string
+            description: Eindeutige Vertrags-ID
+          fleetId:
+            type: string
+            description: Flotten-ID
+          documentInfo:
+            type: string
+            format: uri
+            description: Link zum Vertragsdokument
+          ucid:
+            type: string
+            description: UCID des Vertrags
+          language:
+            type: string
+            description: Sprache und Markt des Vertrags, z.B. 'it-CH'
+          templateRelease:
+            type: string
+            description: Vertragsversion im Format (legal/release).(typo/version)
+          requestId:
+            type: string
+            description: Eindeutige Request-ID
